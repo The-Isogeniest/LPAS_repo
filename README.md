@@ -85,14 +85,7 @@ python3 demo.py --help
 ```
 Lists every flag and its default directly from the CLI.
 
-A couple of details worth knowing about how the flags interact: `--seed`
-controls reproducibility for the whole batch, not just one trial, each
-trial still gets its own independently-spawned RNG stream (via numpy's
-`SeedSequence`), but a given seed always produces the same sequence of
-per-trial streams. And `--trials`/`--verbose` are independent of each
-other: `--trials 1` (the default) combined with `--verbose False` gives a
-single concise pass/fail line instead of the usual walkthrough, handy for
-a quick sanity check without the full output.
+
 
 ## Parameter profiles
 
