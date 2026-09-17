@@ -54,7 +54,7 @@ identical every time you run this exact command.
 ```bash
 python3 demo.py --trials 50
 ```
-Stress test: runs the exchange 50 times. Trial 1 prints full detail, the
+runs the exchange 50 times. Trial 1 prints full detail, the
 rest print a one-line pass/fail summary, and a batch summary ("X/N
 succeeded", timing min/avg/max) is printed at the end.
 
@@ -105,7 +105,7 @@ the `LPAS_PROFILE` env var):
 ## Sizes (paper profile)
 
 
-Below are the resulting sizes,which match the paper's Table 2 / Appendix E
+Below are the resulting sizes, which match the paper's Table 2 / Appendix E
 exactly, plus a short note on how each is packed.
 
 | Component | Size | How it's computed |
