@@ -2,28 +2,12 @@
 Public-key encryption scheme of Figure 11 (Appendix D): a simplified
 Kyber-style Module-LWE public-key encryption scheme.
 
-Faithful to the paper: its own modulus Q_PKE=7681 and module rank D=3
+it has own modulus Q_PKE=7681 and module rank D=3
 (Appendix E, "PKE parameters"), independent of the signature scheme's
 modulus/rank in params.py. KeyGen/Encrypt/Decrypt below match Figure 11's
 equations (b := A.s+e; c1 := A^T.y+e1, c2 := b^T.y+e2+Encode(m); v :=
 c2-s^T.c1, m := Decode(v)) coefficient-for-coefficient.
 
-One deliberate deviation: the paper fixes its ring to degree n=256, since
-that's exactly LAMBDA (the message length in bits, one bit per
-coefficient). We instead reuse the ACTIVE profile's ring degree N from
-params.py, so the toy profile's smaller, faster ring (N=64) also works.
-This is safe: the scheme's correctness bound (Appendix D, "512d+1 <
-(1/2)floor(q_PKE/2)") depends on the module rank d and the noise growth
-from N-term convolutions, not on any fixed N; a smaller N only shrinks
-that noise growth, giving MORE correctness margin, never less.
-
-Consequence: encrypt()/decrypt() below handle exactly one ring element's
-worth of message bits (N of them), exactly as Figure 11 (which, in the
-paper's own N=256 profile, is exactly LAMBDA bits, so encrypt_bytes()
-below reduces to a single Figure-11 call there). Since our toy profile's
-N=64 is smaller than LAMBDA=256, encrypt_bytes()/decrypt_bytes() wrap
-several independent calls, each with its own fresh ephemeral randomness
-per IND-CPA, sharing one PKE keypair.
 """
 from __future__ import annotations
 import hashlib
