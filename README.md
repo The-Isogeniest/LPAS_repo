@@ -140,7 +140,7 @@ exactly, plus a short note on how each is packed.
 | `demo.py` | End-to-end run: Buyer/Seller/Proxy simulation with printed steps and assertions. |
 
 
-## Suggested next steps
+## Future Work
 
 - Replace `nizk.py` with a real Fiat-Shamir-compiled Sigma-protocol for statement (7)-(8) (a linear-relation proof over `R_A` combined with an encryption-correctness proof for the PKE/SKE ciphertexts).
 - For now, the `nizk.py` file does not implement the full NIZK proofs.
