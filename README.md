@@ -98,7 +98,7 @@ the `LPAS_PROFILE` env var):
 | `k`, `l` | 2, 2 | 4, 4 |
 | `ω` (challenge weight) | 20 | 60 |
 | compression `ν_b`, `ν_w` | 0, 0 (disabled) | 9, 15 (real) |
-| runtime (full exchange), median | ~18.9 ms | ~114.1 ms |
+| runtime (full exchange), median | 18.9 ms | 114.1 ms |
 
 Median over 500 trials (`python3 demo.py --profile <toy\|paper> --trials 500
 --verbose False`), single core, Turbo Boost off: Intel Core i9-10980HK
