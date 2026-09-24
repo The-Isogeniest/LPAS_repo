@@ -21,10 +21,7 @@ intended way to choose one:
           interactively.
 
 Either way: this is a reading/demo implementation, not a security-reviewed
-one (see README.md for the list of simplifications, e.g. the NIZK stub and
-the rounded-normal approximation to a discrete Gaussian). Only the "paper"
-profile's *sizes* come from the paper; the implementation around them
-(NIZK stub, rounded-normal sampler, etc.) is unchanged.
+one 
 """
 import os
 
@@ -45,10 +42,10 @@ _PAPER_SIGMA_Y_TILDE = 2 ** 16.47
 _PAPER_SIGMA_WIT = 2 ** 11.41
 
 _PAPER = dict(
-    # Table 2 / Appendix E ("Parameter Selection"): n, k, l, q, omega.
-    N=256, Q=56430593, K=4, L=4,         # q = 2^9*110216+1 = 2^15*1722+4097, prime, q = 1 (mod 2n)
+    # Table 2 / Section F ("Parameter Selection"): n, k, l, q, omega.
+    N=256, Q=34053121, K=4, L=4,         # q = 2^8*133020+1 = 2^14*2078+7169, prime, q = 1 (mod 2n)
     OMEGA=60,
-    # sigma~_w, sigma_wit (Appendix E derives these from M_s=M_ps=M_wit=1.3
+    # sigma~_w, sigma_wit (Section F derives these from M_s=M_ps=M_wit=1.3
     # and target Renyi-divergence errors eps_s=eps_ps<=2^-68, eps_wit<=2^-194).
     # sigma_w (ordinary signing) is then set to sqrt(sigma~_w^2 + sigma_wit^2),
     # since an adapted response is z = z~ + wit'.
@@ -56,9 +53,9 @@ _PAPER = dict(
     SIGMA_Y_TILDE=_PAPER_SIGMA_Y_TILDE, SIGMA_WIT=_PAPER_SIGMA_WIT,
     REJ_M_Y=1.3, REJ_M_Y_TILDE=1.3, REJ_M_WIT=1.3,
     # Modulus-rounding (Definition 1): real compression is ON here.
-    NU_B=9, NU_W=15,
-    # Norm bounds, Appendix E (Euclidean norm).
-    B_WIT=2 ** 17.27, B_PROXYSIGN=2 ** 22.99, B_SIGN=2 ** 23.02,
+    NU_B=8, NU_W=14,
+    # Norm bounds, Section F (Euclidean norm).
+    B_WIT=2 ** 17.27, B_PROXYSIGN=2 ** 22.70, B_SIGN=2 ** 22.73,
 )
 
 _PROFILES = {"toy": _TOY, "paper": _PAPER}
