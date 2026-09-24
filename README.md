@@ -94,10 +94,11 @@ the `LPAS_PROFILE` env var):
 
 | | `toy` (default) | `paper` |
 |---|---|---|
-| `n`, `q` | 64, 3329 | 256, 56430593 |
+| `n`, `q` | 64, 3329 | 256, 34053121 |
 | `k`, `l` | 2, 2 | 4, 4 |
 | `ω` (challenge weight) | 20 | 60 |
-| compression `ν_b`, `ν_w` | 0, 0 (disabled) | 9, 15  |
+| compression `ν_b`, `ν_w` | 0, 0 (disabled) | 8, 14 (real) |
+| runtime (full exchange), median | ~13.1 ms | ~60.7 ms |
 
 ```bash
 taskset -c 0 python3 bench_steps.py --profile <toy|paper> --trials 500 --seed 123
@@ -118,13 +119,13 @@ exactly, plus a short note on how each is packed.
 
 | Component | Size | How it's computed |
 |---|---|---|
-| `vk` | 2.14 KiB | seed (16 B) + `b`'s `nk` coefficients packed at the compressed modulus `q_b = q/2^ν_b`, `⌈log₂ q_b⌉` bits each. |
+| `vk` | 2.27 KiB | seed (16 B) + `b`'s `nk` coefficients packed at the compressed modulus `q_b = q/2^ν_b`, `⌈log₂ q_b⌉` bits each. |
 | `req` | 4.50 KiB | `PKE.pk` + `stmt`'s `k` coefficients packed at the full modulus `q`. |
 | `t` | 3.25 KiB | same packing as `stmt`, at modulus `q`. |
 | `PKE.pk` | 1.25 KiB | seed (32 B) + `b`'s `D=3` coefficients packed at the PKE's own modulus `q_PKE=7681`. |
 | `PKE.ct` | 1.625 KiB | `c1` (`D` ring elements, `Dn` coefficients) + `c2` (1 ring element, `n` coefficients), all mod `q_PKE`, summed over however many chunks the message needs. |
-| `sig` | 6.53 KiB | challenge `c` (sparse rank encoding: `⌈log₂ C(n,ω)⌉ + ω` bits) + `z`'s `n(k+l)` coefficients at a fixed width sized to the public bound `B_sign` + `h`'s `nk` coefficients at 2 bits (paper shows `h ∈ {-1,0,1}` for these parameters). |
-| `presig` | 6.28 KiB | same as `sig`, but `z~`'s width is sized to `B_proxysign` instead. |
+| `sig` | 6.28 KiB | challenge `c` (sparse rank encoding: `⌈log₂ C(n,ω)⌉ + ω` bits) + `z`'s `n(k+l)` coefficients at a fixed width sized to the public bound `B_sign` + `h`'s `nk` coefficients at 2 bits (paper shows `h ∈ {-1,0,1}` for these parameters). |
+| `presig` | 6.28 KiB | same as `sig`, but `z~`'s width is sized to `B_proxysign` instead (now equal to `sig`'s width at these parameters). |
 | `advt` (excl. NIZK) | 9.65 KiB | `t` + `PKE.ct` + `SKE.ct` (AES-256-GCM of `r`, tight-packed to a fixed width sized to `B_wit`, +12 B nonce +16 B tag). |
 | `(wit', ct)` to buyer | 11.15 KiB | `wit'`'s `n(k+l)` coefficients at the same `B_wit`-sized width + `PKE.ct` + `SKE.ct` (same ciphertext, forwarded from `advt`). |
 
