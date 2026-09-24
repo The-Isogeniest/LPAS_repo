@@ -97,8 +97,7 @@ the `LPAS_PROFILE` env var):
 | `n`, `q` | 64, 3329 | 256, 56430593 |
 | `k`, `l` | 2, 2 | 4, 4 |
 | `ω` (challenge weight) | 20 | 60 |
-| compression `ν_b`, `ν_w` | 0, 0 (disabled) | 9, 15 (real) |
-| runtime (full exchange), median | ~13.3 ms | ~61.5 ms |
+| compression `ν_b`, `ν_w` | 0, 0 (disabled) | 9, 15  |
 
 ```bash
 taskset -c 0 python3 bench_steps.py --profile <toy|paper> --trials 500 --seed 123
