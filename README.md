@@ -93,7 +93,7 @@ Two parameter profiles are available (`params.py`, selected via `--profile` /
 the `LPAS_PROFILE` env var):
 
 | | `toy` (default) | `paper` |
-|---|---|---|s
+|---|---|---|
 | `n`, `q` | 64, 3329 | 256, 56430593 |
 | `k`, `l` | 2, 2 | 4, 4 |
 | `ω` (challenge weight) | 20 | 60 |
