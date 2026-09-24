@@ -93,16 +93,21 @@ Two parameter profiles are available (`params.py`, selected via `--profile` /
 the `LPAS_PROFILE` env var):
 
 | | `toy` (default) | `paper` |
-|---|---|---|
+|---|---|---|s
 | `n`, `q` | 64, 3329 | 256, 56430593 |
 | `k`, `l` | 2, 2 | 4, 4 |
 | `ω` (challenge weight) | 20 | 60 |
 | compression `ν_b`, `ν_w` | 0, 0 (disabled) | 9, 15 (real) |
-| runtime (full exchange), median | 18.9 ms | 114.1 ms |
+| runtime (full exchange), median | ~13.3 ms | ~61.5 ms |
 
-Median over 500 trials (`python3 demo.py --profile <toy\|paper> --trials 500
---verbose False`), single core, Turbo Boost off: Intel Core i9-10980HK
-@ 2.40 GHz, Ubuntu Linux, Python 3.13.12, NumPy 2.4.4.
+```bash
+taskset -c 0 python3 bench_steps.py --profile <toy|paper> --trials 500 --seed 123
+```
+[`bench_steps.py`](bench_steps.py) times each Figure 3 algorithm directly
+over 500 trials and prints min/median/mean/stdev/max for every algorithm,
+plus the same for the full-exchange total (`demo.py`'s own totals run
+slower, since they also build hex/debug output on every trial regardless
+of `--verbose`)
 
 
 
@@ -138,9 +143,9 @@ exactly, plus a short note on how each is packed.
 | `nizk.py` | **Stub**, not a real proof system |
 | `lpas.py` | Figure 3 itself: `Setup, ReqGen, ReqVerify, AdGen, AdVerify, ProxySign, ProxyPreVerify, Adapt, ProxyExt, ReqExt`, and the hard relation `R_A`. |
 | `demo.py` | End-to-end run: Buyer/Seller/Proxy simulation with printed steps and assertions. |
+| `bench_steps.py` | Per-algorithm timing benchmark: times each Figure 3 algorithm directly over many trials and reports min/median/mean/stdev, without `demo.py`'s hex/debug-output overhead. |
 
 
-## Future Work
+## Future work
 
-- Replace `nizk.py` with a real Fiat-Shamir-compiled Sigma-protocol for statement (7)-(8) (a linear-relation proof over `R_A` combined with an encryption-correctness proof for the PKE/SKE ciphertexts).
-- For now, the `nizk.py` file does not implement the full NIZK proofs.
+- For now, the `nizk.py` file does not implement the full NIZK proofs, as a future work, we have to complete the NIZK implementation.
